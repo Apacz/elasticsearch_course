@@ -35,6 +35,7 @@ services:
       # na potrzeby demo bez security
       - XPACK_SECURITY_ENABLED=false
       - SERVER_HOST=0.0.0.0
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=super-dlugi-tajny-klucz-32-znaki-minimum-123456
     ports:
       - "5601:5601"
 
