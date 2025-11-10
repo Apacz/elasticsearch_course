@@ -1,0 +1,16 @@
+filebeat.inputs:
+  - type: filestream
+    id: demo-logs
+    enabled: true
+    paths:
+      - /var/demo-logs/*.log
+    fields:
+      source_type: demo
+    fields_under_root: true
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  # security is off, so no user/pass
+
+setup.template.enabled: true
+setup.ilm.enabled: false

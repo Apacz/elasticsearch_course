@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+    container_name: es-demo
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.0
+    container_name: kibana-demo
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.14.0
+    container_name: filebeat-demo
+    depends_on:
+      - elasticsearch
+    user: root
+    volumes:
+      # local demo logs → container
+      - ./logs:/var/demo-logs:ro
+      # filebeat config
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+    command: ["filebeat", "-e", "-strict.perms=false"]
+
+volumes:
+  es-data:
