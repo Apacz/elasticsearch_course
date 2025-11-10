@@ -1,0 +1,10 @@
+{
+    "require": {
+        "elastic/elasticsearch-serverless": "^0.2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
