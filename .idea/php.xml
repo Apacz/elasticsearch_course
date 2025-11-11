@@ -10,6 +10,31 @@
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/php/vendor/php-http/discovery" />
+      <path value="$PROJECT_DIR$/php/vendor/php-http/httplug" />
+      <path value="$PROJECT_DIR$/php/vendor/php-http/promise" />
+      <path value="$PROJECT_DIR$/php/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/php/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/php/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/php/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/php/vendor/composer" />
+      <path value="$PROJECT_DIR$/php/vendor/open-telemetry/context" />
+      <path value="$PROJECT_DIR$/php/vendor/open-telemetry/api" />
+      <path value="$PROJECT_DIR$/php/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/php/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/php/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/php/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/php/vendor/elastic/transport" />
+      <path value="$PROJECT_DIR$/php/vendor/elastic/elasticsearch-serverless" />
+      <path value="$PROJECT_DIR$/php/vendor/symfony/polyfill-php82" />
+      <path value="$PROJECT_DIR$/php/vendor/symfony/deprecation-contracts" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

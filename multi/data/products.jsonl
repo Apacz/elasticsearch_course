@@ -1,0 +1,8 @@
+{ "index": { "_index": "products", "_id": "1" } }
+{ "organisation_id": "org-1", "name": "Robo Connector ERP", "text": "Modular ERP, BPM, MES and AI-first workflows.", "category": "software", "price": 199.0, "created_at": "2025-11-11T10:00:00Z" }
+{ "index": { "_index": "products", "_id": "2" } }
+{ "organisation_id": "org-1", "name": "FlowBeacon AI", "text": "AI automation and orchestration layer.", "category": "software", "price": 149.0, "created_at": "2025-11-11T10:05:00Z" }
+{ "index": { "_index": "products", "_id": "3" } }
+{ "organisation_id": "org-2", "name": "AccordFlow e-sign", "text": "E-signature and signing workflows with compliance.", "category": "service", "price": 49.0, "created_at": "2025-11-11T10:10:00Z" }
+{ "index": { "_index": "products", "_id": "4" } }
+{ "organisation_id": "org-1", "name": "Atlas OCR", "text": "OCR/document parsing connected to Robo Connector.", "category": "service", "price": 59.0, "created_at": "2025-11-11T10:12:00Z" }
