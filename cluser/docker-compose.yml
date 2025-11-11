@@ -11,8 +11,8 @@ services:
       - cluster.initial_master_nodes=es01,es02,es03
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
-#    ports:
-#      - "9200:9200"
+    ports:
+      - "9201:9200"
     volumes:
       - esdata01:/usr/share/elasticsearch/data
     networks:
@@ -27,6 +27,8 @@ services:
       - discovery.seed_hosts=es01,es02,es03
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9202:9200"
     volumes:
       - esdata02:/usr/share/elasticsearch/data
     networks:
