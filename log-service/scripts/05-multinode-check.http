@@ -1,0 +1,14 @@
+### show shards
+GET _cat/shards?v
+
+### create index to distribute
+PUT demo-index
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 1
+  }
+}
+
+### see how it was distributed
+GET _cat/shards/demo-index?v

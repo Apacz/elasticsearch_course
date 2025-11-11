@@ -1,0 +1,70 @@
+### 1. health
+GET _cluster/health
+GET _cat/nodes?v
+GET _cat/indices?v
+
+### 2. search all products
+GET products/_search
+{
+  "query": { "match_all": {} }
+}
+
+### 3. fulltext
+GET products/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "workflow",
+      "fields": ["title^3", "description"]
+    }
+  }
+}
+
+### 4. filter by organisation
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        { "term": { "organisation_id": "org-1" } }
+      ],
+      "must": [
+        { "match": { "description": "AI" } }
+      ]
+    }
+  }
+}
+
+### 5. messages search
+GET messages/_search
+{
+  "query": {
+    "match": {
+      "body": "faktura"
+    }
+  }
+}
+
+### 6. transactions range
+GET transactions-2025/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        { "term": { "organisation_id": "org-1" } },
+        { "range": { "date": { "gte": "2025-11-10" } } }
+      ]
+    }
+  }
+}
+
+### 7. multi-index
+GET products,messages/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "dostawa",
+      "fields": ["title^2", "description", "body"]
+    }
+  }
+}
