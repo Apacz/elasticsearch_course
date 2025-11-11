@@ -13,10 +13,9 @@ services:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       # --- CORS so browser JS can call it ---
       - http.cors.enabled=true
-      - http.cors.allow-origin=*
-      - http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization
-      - http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE
-      # (optional, but handy)
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers="X-Requested-With,Content-Type,Content-Length,Authorization"
+      - http.cors.allow-methods="OPTIONS,HEAD,GET,POST,PUT,DELETE"
       - http.cors.allow-credentials=true
     ports:
       - "9201:9200"
@@ -36,10 +35,9 @@ services:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       # --- CORS so browser JS can call it ---
       - http.cors.enabled=true
-      - http.cors.allow-origin=*
-      - http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization
-      - http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE
-      # (optional, but handy)
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers="X-Requested-With,Content-Type,Content-Length,Authorization"
+      - http.cors.allow-methods="OPTIONS,HEAD,GET,POST,PUT,DELETE"
       - http.cors.allow-credentials=true
     ports:
       - "9202:9200"
