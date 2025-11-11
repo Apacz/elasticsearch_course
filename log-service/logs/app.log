@@ -1,0 +1,4 @@
+2025-11-11 10:00:01 INFO system started
+2025-11-11 10:00:03 WARN slow response from external service
+2025-11-11 10:00:05 ERROR failed to process invoice 123
+2025-11-11 10:02:10 INFO user paweł logged in

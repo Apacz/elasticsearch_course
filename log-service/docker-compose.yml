@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-demo
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization
+      - http.cors.allow-methods=OPTIONS,HEAD,GET,POST,PUT,DELETE
+    ports:
+      - "9201:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - es01
+
+  log-service:
+    build: .
+    container_name: log-service
+    environment:
+      - ES_URL=http://es01:9200
+      - LOG_FILE=/logs/app.log
+      - LOG_INDEX=logs-demo
+    volumes:
+      - ./logs:/logs
+    ports:
+      - "5000:5000"
+    depends_on:
+      - es01
+
+volumes:
+  es-data:

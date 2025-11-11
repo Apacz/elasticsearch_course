@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Elasticsearch demo</title>
+    <style>
+        body { font-family: sans-serif; max-width: 900px; margin: 20px auto; }
+        .hit { padding: 6px 0; border-bottom: 1px solid #eee; }
+        .ts { color: #666; font-size: 0.8rem; }
+        .lvl { font-weight: bold; margin-right: 6px; }
+        #aggs span { margin-right: 10px; }
+    </style>
+</head>
+<body>
+<h1>Elasticsearch Search Demo</h1>
+<p>Type a query and hit "Search".</p>
+
+<label>
+    Query:
+    <input id="query" value="error" style="width: 200px;" />
+</label>
+<button id="btn">Search</button>
+
+<div id="info" style="margin-top: 15px;"></div>
+<div id="aggs" style="margin-top: 10px;"></div>
+<div id="results" style="margin-top: 15px;"></div>
+
+<script>
+    // USTAW TU ADRES ES:
+    const ES_BASE = "http://robo-meister:9021"; // albo "http://localhost:9201"
+    const INDEX   = "logs-*"; // możesz zmienić na "products" jeśli tak się nazywa index
+
+    async function runSearch() {
+        const q = document.getElementById("query").value.trim() || "error";
+
+        const body = {
+            size: 20,
+            sort: [{ "@timestamp": { "order": "desc" } }],
+            query: {
+                bool: {
+                    must: [
+                        {
+                            multi_match: {
+                                query: q,
+                                fields: ["message", "log", "error", "kubernetes.*", "host.*"],
+                                type: "best_fields"
+                            }
+                        }
+                    ],
+                    filter: [
+                        {
+                            range: {
+                                "@timestamp": {
+                                    gte: "now-24h",
+                                    lte: "now"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            aggs: {
+                by_level: {
+                    terms: {
+                        field: "log.level.keyword",
+                        size: 10
+                    }
+                }
+            }
+        };
+
+        const res = await fetch(`${ES_BASE}/${INDEX}/_search`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+            document.getElementById("info").textContent = "Error: " + res.status + " " + res.statusText;
+            document.getElementById("results").innerHTML = "";
+            return;
+        }
+
+        const data = await res.json();
+
+        document.getElementById("info").textContent =
+            `Found ${data.hits?.total?.value ?? 0} docs for "${q}"`;
+
+        // agregacje
+        const aggsDiv = document.getElementById("aggs");
+        aggsDiv.innerHTML = "";
+        const buckets = data.aggregations?.by_level?.buckets ?? [];
+        if (buckets.length) {
+            aggsDiv.textContent = "Logs per level: ";
+            buckets.forEach(b => {
+                const sp = document.createElement("span");
+                sp.textContent = `${b.key}: ${b.doc_count}`;
+                aggsDiv.appendChild(sp);
+            });
+        }
+
+        // wyniki
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
+        (data.hits?.hits ?? []).forEach(hit => {
+            const src = hit._source || {};
+            const div = document.createElement("div");
+            div.className = "hit";
+            const ts  = src["@timestamp"] || "-";
+            const lvl = (src.log && src.log.level) || src.level || "-";
+            const msg = src.message || JSON.stringify(src);
+            div.innerHTML = `<div class="ts">${ts}</div><div><span class="lvl">[${lvl}]</span>${msg}</div>`;
+            resultsDiv.appendChild(div);
+        });
+    }
+
+    document.getElementById("btn").addEventListener("click", runSearch);
+    // auto-run first
+    runSearch();
+</script>
+</body>
+</html>
